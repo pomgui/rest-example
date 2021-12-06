@@ -1,32 +1,26 @@
 import express from 'express';
 import { PiService } from '@pomgui/rest';
-import { PiFirebirdPool } from '@pomgui/database';
+import { PiFirebirdPool } from '@pomgui/database/dist/firebird';
 import { services } from './openapi/services';
 import { descriptors } from './openapi/params';
 
-// Create a new express application instance
-const app = express();
-const port = parseInt(process.env.PORT || '8080');
 const options = {
-  host: 'localhost',
-  port: 3050,
-  user: 'minnow',
-  password: 'minnow',
-  database: '/firebird/data/minnow.fdb'
+    host: 'localhost',
+    port: 3050,
+    user: 'minnow',
+    password: 'minnow',
+    database: '/firebird/data/minnow.fdb'
 };
 
-main();
+export const dbPool = new PiFirebirdPool(options, 10);
 
-function main() {
-    app.use(express.json());
-    app.use('/v1', PiService({ 
-        services, 
-        descriptors,
-        dbPool: new PiFirebirdPool(options, 10) 
-    }));
+// Create a new express application instance
+export const app = express();
 
-    // Serve the application at the given port
-    app.listen(port, () => {
-        console.log(`Listening at http://localhost:${port}/`);
-    });
-}
+// Define endpoints
+app.use(express.json());
+app.use('/v1', PiService({
+    services,
+    descriptors,
+    dbPool
+}));
