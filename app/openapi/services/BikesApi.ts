@@ -2,22 +2,23 @@ import { PiGET, PiRestError, PiPOST, PiPUT } from '@pomgui/rest';
 import { CityDto, StationDto, StationBookDto } from '../model';
 import { GetCitiesParam, GetStationsParam, GetStationBooksParam, NewStationBookParam, UpdateStationBookParam } from '../params';
 import { PiDatabase } from '@pomgui/database';
+import * as dao from '../../dao/dao';
 
 export class BikesApi {
     @PiGET('/cities')
     async getCities(params: GetCitiesParam, db: PiDatabase): Promise<CityDto[]> {
-        let value: CityDto[] = [] as CityDto[];
-        /* fill 'value' here */
-        return value;
+        return dao.getCities(db);
     }
 
     @PiGET('/stations')
     async getStations(params: GetStationsParam, db: PiDatabase): Promise<StationDto[]> {
-        if (/* condition */false)
-            throw new PiRestError('Missing required parameter', 400);
-        let value: StationDto[] = [] as StationDto[];
-        /* fill 'value' here */
-        return value;
+        if (!params.latitude && !params.address)
+            throw new PiRestError('Missing required parameter "latitude"', 400);
+        if (!params.longitude && !params.address)
+            throw new PiRestError('Missing required parameter "longitude"', 400);
+        if (!params.longitude && !params.longitude && !params.address)
+            throw new PiRestError('Missing required parameter "address"', 400);
+        return dao.getStations(params, db);
     }
 
     @PiGET('/stations/:stationId/books')
