@@ -1,0 +1,208 @@
+swagger: '2.0'
+info:
+  version: "1.0.0"
+  title: Minnow Assessment
+host: localhost:8080
+basePath: /v1
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+tags:
+  - name: bikes
+securityDefinitions:
+  token:
+    type: apiKey
+    in: header
+    name: Authorization
+
+# 1. Paths
+paths:
+  /cities:
+    get:
+      tags: [bikes]
+      summary: List of cities being monitored by the server
+      operationId: getCities
+      parameters:
+        - name: dummy
+          type: string
+          in: query
+      responses:
+        200:
+          description: List of cities
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/City'
+
+  /stations:
+    get:
+      tags: [bikes]
+      summary: Gets the available bikes and their locations (ordered by distance to the user's location)
+      operationId: getStations
+      parameters:
+        - name: latitude
+          type: number
+          in: query
+          required: false
+          description: Only returns bikes close to this location 
+        - name: longitude
+          type: number
+          in: query
+          required: false
+          description: Only returns bikes close to this location 
+        - name: distance
+          type: number
+          required: false
+          in: query
+          description: >
+            Maximum distance (in meters) to be considered. Default 5Km
+        - name: address
+          type: string
+          required: false
+          description: >
+            Return stations with an address similar to the parameter (minimum 3 chars).
+            If this parameter is sent, latitude, longitude, and distance are optional.
+        - name: resultSize
+          type: number
+          required: false
+          description: Maximum number of stations to be returned (default 50)
+      responses: 
+        200:
+          description: OK. List of the stations with available bikes
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Station'
+        400:
+          description: Missing required parameter
+
+  /stations/{stationId}/books:
+    get:
+      tags: [bikes]
+      summary: Gets the bike reserves made to that station.
+      operationId: getStationBooks
+      parameters:
+        - name: stationId
+          type: string
+          required: true
+          in: path
+      responses:
+        200: 
+          description: OK.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/StationBook'
+        404:
+          description: stationId not found
+
+    post:
+      tags: [bikes]
+      summary: Creates a bike reservation in a Station
+      operationId: newStationBook
+      parameters:
+        - name: stationId
+          type: string
+          required: true
+          in: path
+        - name: qty
+          in: query
+          description: Number of bikes to reserve
+      responses:
+        200: 
+          description: OK. Reserve confirmed.
+          schema:
+            $ref: '#/definitions/StationBook'
+        404:
+          description: stationId not found
+        409:
+          description: There's no enough available bikes
+
+  /stations/{stationId}/books/{bookId}:
+    put:
+      tags: [bikes]
+      summary: Cancel the reservation
+      operationId: updateStationBook
+      parameters:
+        - name: stationId
+          type: string
+          required: true
+          in: path
+        - name: bookId
+          type: string
+          required: true
+          in: path
+        - name: status
+          type: string
+          enum: [cancel, taken, returned]
+          in: query
+          description: New status of the reservation
+      responses:
+        200: 
+          description: OK.
+          schema:
+            $ref: '#/definitions/StationBook'
+        404:
+          description: stationId or bookId not found
+        409:
+          description: There's no enough available bikes
+
+# 3. Definitions
+definitions:
+  City:
+    type: object
+    required: [latitude, longitude]
+    properties:
+      id:
+        type: number
+        description: Unique ID for a city
+      name:
+        type: string
+        description: Name of the city
+      latitude:
+        type: number
+      longitude:
+        type: number
+      country:
+        type: string      
+
+  Station:
+    type: object
+    properties:
+      name:
+        type: string
+      latitude:
+        type: number
+      longitude:
+        type: number
+      free_bikes:
+        type: number
+        description: Available bikes
+      company:
+        type: string
+      address:
+        type: string
+
+  Location:
+    type: object
+    required: [latitude, longitude]
+    properties:
+      latitude:
+        type: number
+      longitude:
+        type: number
+
+  StationBook:
+    type: object
+    properties:
+      id:
+        type: number
+      quantity:
+        type: number
+        description: Number of reserved bikes
+      status:
+        type: string
+        enum: [pending, taken, returned]
