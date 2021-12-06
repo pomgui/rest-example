@@ -23,11 +23,8 @@ export class BikesApi {
 
     @PiGET('/stations/:stationId/books')
     async getStationBooks(params: GetStationBooksParam, db: PiDatabase): Promise<StationBookDto[]> {
-        if (/* condition */false)
-            throw new PiRestError('stationId not found', 404);
-        let value: StationBookDto[] = [] as StationBookDto[];
-        /* fill 'value' here */
-        return value;
+        await dao.getStation(params.stationId, db);
+        return dao.getStationBooks(params, db);
     }
 
     @PiPOST('/stations/:stationId/books')

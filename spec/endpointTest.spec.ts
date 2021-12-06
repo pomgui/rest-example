@@ -73,4 +73,14 @@ describe('Endpoints Test', () => {
             expect(response.body).toHaveSize(10);
         });
     });
+
+    describe('/stations/:stationId/books', () => {
+        it('should return error 404', async () => {
+            const URL = '/v1/stations/123/books';
+            const response: Response = await request.get(URL);
+            expect(response.status).toEqual(404);
+            expect(response.body).toEqual({ message: 'Not found' });
+        });
+    });
+
 });

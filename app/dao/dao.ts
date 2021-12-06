@@ -1,6 +1,7 @@
 import { PiDatabase } from "@pomgui/database";
-import { CityDto, StationDto } from "app/openapi/model";
-import { GetStationsParam } from "app/openapi/params";
+import { PiRestError } from "@pomgui/rest-lib";
+import { CityDto, StationBookDto, StationDto } from "app/openapi/model";
+import { GetStationBooksParam, GetStationsParam } from "app/openapi/params";
 
 const maxDistance = parseInt(process.env.MINNOW_MAXDISTANCE || '50000');
 
@@ -35,5 +36,23 @@ export function getStations(params: GetStationsParam, db: PiDatabase): Promise<S
         WHERE a.distance <= :distance 
         ORDER BY a.distance, free_bikes desc
         LIMIT 0,${params.resultSize}
+    `, params);
+}
+
+export async function getStation(id: string, db: PiDatabase): Promise<StationDto> {
+    return db.querySingle(`
+        SELECT s.name, s.latitude, s.longitude, s.free_bikes, n.company, s.address 
+        FROM   stations s
+        JOIN   networks n ON n.id = s.network_id
+        WHERE  s.id = :stationId
+    `, { stationId: id });
+}
+
+export async function getStationBooks(params: GetStationBooksParam, db: PiDatabase): Promise<StationBookDto[]> {
+
+    return db.query(`
+        SELECT b.id, b.quantity, b.station_id, b.status 
+        FROM station_books b
+        WHERE b.station_id = :stationId
     `, params);
 }

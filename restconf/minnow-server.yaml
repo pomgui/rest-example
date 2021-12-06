@@ -97,7 +97,7 @@ paths:
             items:
               $ref: '#/definitions/StationBook'
         404:
-          description: stationId not found
+          description: Not found
 
     post:
       tags: [bikes]
