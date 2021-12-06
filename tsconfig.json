@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "outDir": "./build",
+    "strict": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "baseUrl": ".",
+    "noEmitHelpers": true,
+    "importHelpers": true,
+    "paths": {
+      "!!filler": ["!!filler"]
+    }
+  }
+}

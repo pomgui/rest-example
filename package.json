@@ -3,23 +3,33 @@
   "version": "1.0.0",
   "description": "picodegen generated project",
   "scripts": {
-    "prepare": "tsc && rest-pathfix",
-    "start": "node ./build/app/server.js",
-    "codegen": "git add -A && rest-codegen --config \"/home/wpomier/progs/minnow/restconf/minnow-server.restconf.js\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "tsc",
+    "start": "LOG_LEVEL=WARN TZ=UTC node ./build/app/start.js",
+    "codegen": "git add -A && rest-codegen --config \"/home/wpomier/progs/findjob/minnow/restconf/minnow-server.js\"",
+    "test": "ts-node -- ./node_modules/.bin/jasmine --config=spec/support/jasmine.json",
+    "test:cover": "nyc --reporter=html npm run test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1",
-    "tslib": "^2.0.1",
+    "@pomgui/database": "^0.1.6",
     "@pomgui/rest": "^0.1.0",
-    "node-firebird": "^0.9.6"
+    "express": "^4.17.1",
+    "node-fetch-commonjs": "^3.1.1",
+    "node-firebird": "^0.9.6",
+    "tslib": "^2.0.1"
   },
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/express": "^4.17.1",
+    "@types/jasmine": "^3.5.1",
     "@types/node": "^12.7.5",
+    "@types/supertest": "^2.0.11",
+    "jasmine": "^3.5.0",
+    "nyc": "^15.0.0",
+    "supertest": "^6.1.6",
+    "ts-node": "^9.0.0",
     "typescript": "^3.6.3"
   }
 }
