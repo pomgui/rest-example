@@ -1,0 +1,25 @@
+{
+  "name": "minnow-assessment",
+  "version": "1.0.0",
+  "description": "picodegen generated project",
+  "scripts": {
+    "prepare": "tsc && rest-pathfix",
+    "start": "node ./build/app/server.js",
+    "codegen": "git add -A && rest-codegen --config \"/home/wpomier/progs/minnow/restconf/minnow-server.restconf.js\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "tslib": "^2.0.1",
+    "@pomgui/rest": "^0.1.0",
+    "node-firebird": "^0.9.6"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.1",
+    "@types/node": "^12.7.5",
+    "typescript": "^3.6.3"
+  }
+}
