@@ -1,0 +1,9 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+        "outDir": "../../build-spec",
+        "types": [ "jasmine", "node" ]
+    },
+    "include": [ "../../**/*.spec.ts", "../../**/*.d.ts" ],
+    "exclude": [ "node_modules" ]
+}

@@ -12,12 +12,12 @@ export class BikesApi {
 
     @PiGET('/stations')
     async getStations(params: GetStationsParam, db: PiDatabase): Promise<StationDto[]> {
+        if (!params.latitude && !params.longitude && !params.address)
+            throw new PiRestError('Missing required parameter "address" or ("latitude" and "longitude")', 400);
         if (!params.latitude && !params.address)
             throw new PiRestError('Missing required parameter "latitude"', 400);
         if (!params.longitude && !params.address)
             throw new PiRestError('Missing required parameter "longitude"', 400);
-        if (!params.longitude && !params.longitude && !params.address)
-            throw new PiRestError('Missing required parameter "address"', 400);
         return dao.getStations(params, db);
     }
 

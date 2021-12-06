@@ -5,8 +5,8 @@
   "scripts": {
     "prepare": "tsc",
     "start": "LOG_LEVEL=WARN TZ=UTC node ./build/start.js",
-    "test": "ts-node -- ./node_modules/.bin/jasmine --config=spec/support/jasmine.json",
-    "test:cover": "nyc --reporter=html npm run test"
+    "test": "LOG_LEVEL=WARN ts-node -- ./node_modules/.bin/jasmine --config=spec/support/jasmine.json",
+    "test:cover": "LOG_LEVEL=WARN nyc --reporter=html npm run test"
   },
   "keywords": [],
   "author": "",
