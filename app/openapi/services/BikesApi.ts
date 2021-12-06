@@ -34,7 +34,7 @@ export class BikesApi {
         if (/* condition */false)
             throw new PiRestError('stationId not found', 404);
         if (/* condition */false)
-            throw new PiRestError('There's no enough available bikes', 409);
+            throw new PiRestError('There\'s no enough available bikes', 409);
         let value: StationBookDto = {} as StationBookDto;
         /* fill 'value' here */
         return value;
@@ -45,7 +45,7 @@ export class BikesApi {
         if (/* condition */false)
             throw new PiRestError('stationId or bookId not found', 404);
         if (/* condition */false)
-            throw new PiRestError('There's no enough available bikes', 409);
+            throw new PiRestError('There\'s no enough available bikes', 409);
         let value: StationBookDto = {} as StationBookDto;
         /* fill 'value' here */
         return value;

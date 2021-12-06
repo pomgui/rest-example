@@ -1,14 +1,17 @@
 export interface StationDto {
     
-    name?: string;
+    name: string;
     
-    latitude?: number;
+    latitude: number;
     
-    longitude?: number;
+    longitude: number;
     /** Available bikes */
-    free_bikes?: number;
+    free_bikes: number;
     
     company?: string;
     
     address?: string;
+
+    /** Distance from the user location in meters */
+    distance: number;
 }

@@ -4,8 +4,7 @@
   "description": "picodegen generated project",
   "scripts": {
     "prepare": "tsc",
-    "start": "LOG_LEVEL=WARN TZ=UTC node ./build/app/start.js",
-    "codegen": "git add -A && rest-codegen --config \"/home/wpomier/progs/findjob/minnow/restconf/minnow-server.js\"",
+    "start": "LOG_LEVEL=WARN TZ=UTC node ./build/start.js",
     "test": "ts-node -- ./node_modules/.bin/jasmine --config=spec/support/jasmine.json",
     "test:cover": "nyc --reporter=html npm run test"
   },
