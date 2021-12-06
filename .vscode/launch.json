@@ -1,0 +1,36 @@
+{
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "MinnowServer",
+            "protocol": "inspector",
+            "args": [
+                "${workspaceFolder}/app/start.ts"
+            ],
+            "cwd": "${workspaceFolder}",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "env": {
+                "TZ": "UTC"
+            },
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Tests",
+            "protocol": "inspector",
+            "args": ["${workspaceFolder}/node_modules/.bin/jasmine", "--config=spec/support/jasmine.json"],
+            "cwd": "${workspaceFolder}",
+            "runtimeArgs": [ "-r", "ts-node/register" ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "env": {"TZ": "UTC+0"}
+        }
+    ]
+}
